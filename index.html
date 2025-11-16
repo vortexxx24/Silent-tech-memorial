@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In Memory of Abdullah (Silent Tech)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background: #0a0a1a;
+            color: #e8e8e8;
+            overflow-x: hidden;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInDown 2s ease-out 1s forwards;
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            color: #e8e8e8;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #b0b0ff;
+            font-style: italic;
+        }
+
+        .message-container {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out 2s forwards;
+        }
+
+        .message-box {
+            background: rgba(10, 10, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 50px 40px;
+            box-shadow: 0 0 40px rgba(100, 150, 255, 0.15);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .message-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 50px rgba(100, 150, 255, 0.2);
+        }
+
+        .message-text {
+            font-family: 'Cinzel', serif;
+            font-size: 2.4rem;
+            line-height: 1.5;
+            color: #e8e8e8;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background-color: #e8e8e8;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .emoji {
+            font-size: 2.2rem;
+            margin-left: 12px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .dedication {
+            margin-top: 30px;
+            text-align: center;
+            padding: 25px;
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 3s forwards;
+            position: relative;
+        }
+
+        .dedication::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23ffffff" opacity="0.05" d="M50,10 L60,40 L90,40 L65,60 L75,90 L50,70 L25,90 L35,60 L10,40 L40,40 Z"/></svg>');
+            background-size: 30px;
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .dedication h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.9rem;
+            margin-bottom: 12px;
+            color: #f8f8f8;
+        }
+
+        .dedication p {
+            font-size: 1.3rem;
+            color: #d0d0d0;
+            margin-bottom: 8px;
+        }
+
+        .channel-link {
+            margin-top: 30px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 4s forwards;
+        }
+
+        .channel-link a {
+            color: #a0d0ff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: rgba(30, 30, 60, 0.5);
+            border: 1px solid rgba(160, 208, 255, 0.3);
+        }
+
+        .channel-link a:hover {
+            color: #ffffff;
+            background: rgba(30, 30, 60, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 5s forwards;
+        }
+
+        .control-btn {
+            background: rgba(30, 30, 60, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .control-btn:hover {
+            background: rgba(50, 50, 90, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .floating-memories {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .memory {
+            position: absolute;
+            font-size: 1.8rem;
+            opacity: 0;
+            animation: floatUp 20s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .memory:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .memory:nth-child(2) { left: 20%; animation-delay: 3s; }
+        .memory:nth-child(3) { left: 30%; animation-delay: 6s; }
+        .memory:nth-child(4) { left: 40%; animation-delay: 9s; }
+        .memory:nth-child(5) { left: 50%; animation-delay: 12s; }
+        .memory:nth-child(6) { left: 60%; animation-delay: 15s; }
+        .memory:nth-child(7) { left: 70%; animation-delay: 18s; }
+        .memory:nth-child(8) { left: 80%; animation-delay: 21s; }
+        .memory:nth-child(9) { left: 90%; animation-delay: 24s; }
+
+        .quote-mark {
+            position: absolute;
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: 'Playfair Display', serif;
+            z-index: -1;
+        }
+
+        .quote-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .quote-right {
+            bottom: 20px;
+            right: 20px;
+            transform: rotate(180deg);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #a0d0ff, #ffd700);
+            z-index: 10;
+            transition: width 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .message-text {
+                font-size: 1.8rem;
+            }
+            
+            .message-box {
+                padding: 30px 20px;
+            }
+            
+            .dedication h2 {
+                font-size: 1.6rem;
+            }
+            
+            .dedication p {
+                font-size: 1.1rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .controls {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .control-btn {
+                padding: 8px 14px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div id="particles-js"></div>
+    
+    <div class="floating-memories">
+        <div class="memory">🌌</div>
+        <div class="memory">✨</div>
+        <div class="memory">🕊️</div>
+        <div class="memory">❤️</div>
+        <div class="memory">🌱</div>
+        <div class="memory">🎵</div>
+        <div class="memory">🕯️</div>
+        <div class="memory">⛵</div>
+        <div class="memory">🌅</div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>In Memory of Abdullah</h1>
+            <p>A Celestial Tribute to a Life Well-Lived</p>
+        </div>
+        
+        <div class="message-container">
+            <div class="quote-mark quote-left">"</div>
+            <div class="quote-mark quote-right">"</div>
+            <div class="message-box">
+                <div class="message-text" id="message"></div>
+            </div>
+        </div>
+        
+        <div class="dedication">
+            <h2>In Loving Memory</h2>
+            <p>This living memorial was lovingly dedicated to Abdullah (aka Silent Tech).</p>
+            <p>From the entire Edric OS Industries family.</p>
+        </div>
+        
+        <div class="channel-link">
+            <a href="https://whatsapp.com/channel/0029VbAfhCo90x2mMhlHmX2F" target="_blank">
+                <i class="fab fa-whatsapp"></i> Connect with us
+            </a>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button class="control-btn" id="soundToggle">
+            <i class="fas fa-volume-mute"></i> Sound Off
+        </button>
+        <button class="control-btn" id="pauseToggle">
+            <i class="fas fa-pause"></i> Pause
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particle.js configuration for the starfield background
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 120,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 2,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#a0a0ff",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.3
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Messages array
+        const messages = [
+            { text: "Death is unavoidable...", emoji: "💀" },
+            { text: "But so is life.", emoji: "🌱" },
+            { text: "In the midst of life, we are in death. Remember to live.", emoji: "🕊️" },
+            { text: "The stars shine brightest against the darkest sky. Your light remains.", emoji: "✨" },
+            { text: "What is deeply loved is never truly lost.", emoji: "❤️" },
+            { text: "To live in the hearts we leave behind is not to die.", emoji: "🌌" },
+            { text: "Death is a horizon, and a horizon is just the limit of our sight.", emoji: "⛵" },
+            { text: "Gone from our sight, but never from our memories.", emoji: "🕯️" },
+            { text: "While we mourn what is lost, we must cherish what remains.", emoji: "🌅" },
+            { text: "The song may have ended, but the melody lingers on.", emoji: "🎵" },
+            { text: "Like a star that burns bright even after it's gone, your memory illuminates our lives.", emoji: "⭐" },
+            { text: "In the garden of memory, every moment with you blooms forever.", emoji: "🌸" },
+            { text: "Your legacy is not written in stone, but in the hearts you've touched.", emoji: "📜" }
+        ];
+
+        // DOM elements
+        const messageElement = document.getElementById('message');
+        const soundToggle = document.getElementById('soundToggle');
+        const pauseToggle = document.getElementById('pauseToggle');
+        const progressBar = document.getElementById('progressBar');
+        
+        // State variables
+        let currentMessageIndex = 0;
+        let isTyping = false;
+        let soundEnabled = false;
+        let isPaused = false;
+        let typewriterSound;
+        
+        // Initialize audio context for typewriter sound
+        function initAudio() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioContext = new AudioContext();
+                
+                // Create a simple typewriter sound
+                typewriterSound = () => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.05);
+                    
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                };
+            } catch (e) {
+                console.log("Web Audio API not supported");
+            }
+        }
+        
+        // Toggle sound
+        soundToggle.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            soundToggle.innerHTML = soundEnabled ? 
+                '<i class="fas fa-volume-up"></i> Sound On' : 
+                '<i class="fas fa-volume-mute"></i> Sound Off';
+            
+            if (soundEnabled && !typewriterSound) {
+                initAudio();
+            }
+        });
+        
+        // Toggle pause
+        pauseToggle.addEventListener('click', () => {
+            isPaused = !isPaused;
+            pauseToggle.innerHTML = isPaused ? 
+                '<i class="fas fa-play"></i> Play' : 
+                '<i class="fas fa-pause"></i> Pause';
+        });
+        
+        // Update progress bar
+        function updateProgressBar(progress) {
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Typewriter effect with slower, more deliberate pacing
+        function typeWriter(text, emoji, speed = 70) { // Slower typing speed
+            return new Promise((resolve) => {
+                isTyping = true;
+                let i = 0;
+                messageElement.innerHTML = '';
+                
+                function type() {
+                    if (i < text.length && !isPaused) {
+                        messageElement.innerHTML += text.charAt(i);
+                        
+                        // Update progress bar
+                        updateProgressBar((i / text.length) * 100);
+                        
+                        // Play sound if enabled
+                        if (soundEnabled && typewriterSound && text.charAt(i) !== ' ') {
+                            typewriterSound();
+                        }
+                        
+                        i++;
+                        setTimeout(type, speed);
+                    } else if (i >= text.length) {
+                        // Add emoji after text is complete
+                        setTimeout(() => {
+                            const emojiElement = document.createElement('span');
+                            emojiElement.className = 'emoji';
+                            emojiElement.textContent = emoji;
+                            messageElement.appendChild(emojiElement);
+                            
+                            // Add cursor
+                            const cursor = document.createElement('span');
+                            cursor.className = 'cursor';
+                            messageElement.appendChild(cursor);
+                            
+                            // Complete progress bar
+                            updateProgressBar(100);
+                            
+                            isTyping = false;
+                            resolve();
+                        }, 500); // Longer pause before emoji appears
+                    } else {
+                        // If paused, try again after a short delay
+                        setTimeout(type, 100);
+                    }
+                }
+                
+                type();
+            });
+        }
+        
+        // Display messages in sequence with better timing
+        async function displayMessages() {
+            while (true) {
+                if (!isTyping && !isPaused) {
+                    const message = messages[currentMessageIndex];
+                    await typeWriter(message.text, message.emoji);
+                    
+                    // Wait longer before fading out (8 seconds instead of 4)
+                    await new Promise(resolve => {
+                        const interval = setInterval(() => {
+                            if (!isPaused) {
+                                clearInterval(interval);
+                                resolve();
+                            }
+                        }, 100);
+                        setTimeout(() => {
+                            clearInterval(interval);
+                            resolve();
+                        }, 8000); // Longer display time
+                    });
+                    
+                    // Fade out more slowly
+                    messageElement.style.transition = 'opacity 1.5s ease';
+                    messageElement.style.opacity = '0';
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Get next random message
+                    currentMessageIndex = (currentMessageIndex + Math.floor(Math.random() * (messages.length - 1)) + 1) % messages.length;
+                    
+                    // Reset opacity and progress for next message
+                    messageElement.style.transition = 'opacity 1s ease';
+                    messageElement.style.opacity = '1';
+                    updateProgressBar(0);
+                }
+                
+                // Small delay before next iteration
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+        }
+        
+        // Start the message display
+        displayMessages();
+    </script>
+</body>
+</html>
